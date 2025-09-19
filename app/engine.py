@@ -1,7 +1,6 @@
 import traceback
 from dataclasses import dataclass
 from typing import Optional
-from mfrc522 import SimpleMFRC522
 from uuid import uuid4
 
 from datetime import datetime, timedelta
@@ -16,6 +15,7 @@ from .models import (
     check_in_key,
     check_out_key,
 )
+from .reader_adapter import ReaderAdapter
 
 
 @dataclass
@@ -34,7 +34,7 @@ class Engine:
     CHECKOUT_WINDOW = timedelta(seconds=20)
     CHECKIN_MIN_AGE = timedelta(minutes=2)
 
-    def __init__(self, crypto, reader: SimpleMFRC522):
+    def __init__(self, crypto, reader: ReaderAdapter):
         self.state = SessionState()
         self.crypto = crypto
         self.reader = reader
