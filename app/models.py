@@ -34,7 +34,7 @@ def activate_tag(uid: int):
 
 
 def register_or_overwrite_tag(
-    uid: int, tag_type: str, text_uuid: str, encrypted_content: str
+    uid: int, tag_type: str, text_uuid: str, encrypted_content: str | bytes
 ):
     with get_conn() as conn:
         conn.execute(

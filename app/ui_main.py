@@ -292,7 +292,7 @@ class RegisterDialog(QtWidgets.QDialog):
             import uuid
 
             uuid_key = str(uuid.uuid4()).replace("-", "")
-            register_or_overwrite_tag(uid, tag_type, uuid_key, str(encrypted))
+            register_or_overwrite_tag(uid, tag_type, uuid_key, encrypted)
             # Write to tag and verify
             self.reader.write(uuid_key)
             self.status_label.setText(
