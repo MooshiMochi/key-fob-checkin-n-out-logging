@@ -1,83 +1,65 @@
-# ------------------------------
+# Key Fob Check-In/Out Logging
 
-# File: README.md (quick start)
+## Overview
 
-# ------------------------------
+This is a Python application managed with `pip`. It allows you to track when key fobs are checked in and out. The project is designed to be easy to set up and use in any environment that supports Python.
 
-#
+## Setup
 
-# Features
+1. **Clone the repository:**
 
-# - Check-out requires employee card tap first (20s window).
+   ```sh
+   git clone https://github.com/MooshiMochi/key-fob-checkin-n-out-logging.git
+   cd key-fob-checkin-n-out-logging
+   ```
 
-# - After first key checkout, employee has 2 minutes to check out more keys without re-tapping.
+2. **Create a virtual environment (recommended):**
 
-# - Check-in requires only the key fob tap, but only after the key has been out for at least 2 minutes.
+```sh
+   python -m venv venv
+   source venv/bin/activate  # On Windows use: venv\Scripts\activate
+```
 
-# - Simple PySide6 UI you can debug on your PC: shows currently checked-out keys, a menu button (top-right)
+3. **Install dependencies:**
 
-# for Register Employee, Register Key, and Print Logs (CSV for a date/time range).
+   ```sh
+   pip install -r requirements.txt
+   ```
 
-# - SQLite database, safe concurrency, audit logs.
+   if you are not on a Raspberry Pi, you may need to install the mock reader dependencies instead:
 
-# - RC522 abstraction with real-hardware adapter and a Mock adapter for desktop testing.
+   ```sh
+   pip install -r requirements-mock.txt
+   ```
 
-# - Employee names stored on card as AES-GCM ciphertext using a secret key.
+## Usage
 
-#
+1. **Run the application:**
 
-# Wiring (RPi)
+   ```sh
+   python -m app  # use the --mock flag if not on a Raspberry Pi
+   ```
 
-# - Uses SPI. Enable SPI: `sudo raspi-config` → Interface Options → SPI → Enable.
+2. **Configuration:**
 
-# - Typical RC522 ↔ RPi pins (BCM):
+   - You need to enable SPI on your Raspberry Pi. You can do this using `raspi-config`:
 
-# SDA/SS → GPIO8 (CE0)
+     ```sh
+     sudo raspi-config
+     ```
 
-# SCK → GPIO11 (SCLK)
+     Navigate to `Interfacing Options` -> `SPI` and enable it.
 
-# MOSI → GPIO10 (MOSI)
+## Troubleshooting
 
-# MISO → GPIO9 (MISO)
+- Ensure all dependencies are installed.
+- Activate your virtual environment before running commands.
+- Check the terminal and Output pane for error messages.
 
-# RST → GPIO25 (configurable)
+## Contributing
 
-# 3.3V → 3V3, GND → GND
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-#
+## License
 
-# Run (desktop mock):
-
-# python -m app --mock
-
-# In the UI, use the ⋮ menu → Register... to create entries. Then use the
-
-# mock input box (bottom) to simulate RFID UIDs like `emp:DE:AD:BE:EF` or `key:AA:BB:CC:DD`.
-
-#
-
-# Run (on Pi with real reader):
-
-# python -m app
-
-#
-
-# Export logs:
-
-# Use menu → Print/Export Logs → pick date range → CSV file is saved to ./exports/
-
-#
-
-# Dependencies
-
-# pip install PySide6 cryptography mfrc522 spidev RPi.GPIO
-
-# (On desktop mock, you only need PySide6 and cryptography.)
-
-#
-
-# Security note
-
-# - MIFARE Classic + RC522 is not strong security. We encrypt the name on-card (AES-GCM),
-
-# but do not rely on the card for strong authentication.
+[MIT](LICENSE)
